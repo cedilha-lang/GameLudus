@@ -14,47 +14,46 @@ let "food_y = (RANDOM % (height - 2)) + 1"
 let "score = 0"
 
 function draw_game {
-    local output_buffer=""
-
-    # pre generates the superior and inferior borders
+    # pre generates te superior end inferior borders
     local top_bottom_border=$(printf "%0.s-" $(seq 1 $width))
-    output_buffer+="$top_bottom_border\n"
 
     # pre generates the lateral borders
     local side_border="|$(printf "%0.s " $(seq 2 $(($width - 1))))|"
 
+    # clears the terminal
+    clear
+
+    # prints the superior border
+    echo "$top_bottom_border"
+
     # Prints the game field with the lateral borders
     for ((j=0; j<height; j++)); do
-        output_buffer+="|"
+        echo -n '|'
         for ((i=0; i<width; i++)); do
             local is_snake_part=false
             for ((k=0; k<snake_length; k++)); do
                 if [ $i -eq ${snake_x[k]} ] && [ $j -eq ${snake_y[k]} ]; then
-                    output_buffer+='∎'
+                    echo -n '∎'
                     local is_snake_part=true
                     break
                 fi
             done
             if ! $is_snake_part; then
                 if [ $i -eq $food_x ] && [ $j -eq $food_y ]; then
-                    output_buffer+='*'
+                    echo -n '*'
                 else
-                    output_buffer+=' '
+                    echo -n ' '
                 fi
             fi
         done
-        output_buffer+="|\n"
+        echo '|'
     done
 
     # Prints the inferior border
-    output_buffer+="$top_bottom_border\n"
+    echo "$top_bottom_border"
 
     # Shows the player's score under the bottom border
-    output_buffer+="Score: $score\n"
-
-    # Clear the terminal and print the output buffer
-    clear
-    echo -e "$output_buffer"
+    echo "Score: $score"
 }
 
 # Reads user input to move the snake
@@ -100,7 +99,7 @@ function update_game {
         prev_y=$prev2_y
     done
 
-    # Verifies if snake crashed into walls or itself and ends the game if that happens
+    # Verifies if nake crashed into walls or itself and ends the game if that happens
     if [ ${snake_x[0]} -lt 0 ] || [ ${snake_x[0]} -ge $width ] || [ ${snake_y[0]} -lt 0 ] || [ ${snake_y[0]} -ge $height ]; then exit; fi
 
     for ((i=1; i<snake_length; i++)); do 
