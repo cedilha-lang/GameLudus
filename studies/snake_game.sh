@@ -5,7 +5,6 @@
 # Initial setup
 width=$(tput lines)   # game canvas width (correct would be adding cols instead of lines)
 let "height = 10"   # game canvas height
-let "area = $width * $height"
 let "snake_length = 1"
 let "snake_x[0] = width / 2"
 let "snake_y[0] = height / 2"
@@ -58,7 +57,7 @@ function draw_game {
     # Shows the player's score under the bottom border
     output_buffer+="Score: $score\n"
 
-    # Clear the terminal and print the output buffer
+    # Clears the terminal and prints the output buffer
     clear
     echo -e "$output_buffer"
 }
@@ -75,12 +74,13 @@ function read_input {
     esac
 }
 
-# updates snake position and verifies if it has eaten the food
+# updates the game state
 function update_game {
     local prev_x=${snake_x[0]}
     local prev_y=${snake_y[0]}
     local prev2_x prev2_y
 
+    # renovates the snake position
     case $move in 
         up) let "snake_y[0] -= 1" ;;
         down) let "snake_y[0] += 1" ;;
@@ -107,10 +107,14 @@ function update_game {
     done
 
     # Verifies if snake crashed into walls or itself and ends the game if that happens
-    if [ ${snake_x[0]} -lt 0 ] || [ ${snake_x[0]} -ge $width ] || [ ${snake_y[0]} -lt 0 ] || [ ${snake_y[0]} -ge $height ]; then exit; fi
-
+    if [ ${snake_x[0]} -lt 0 ] || [ ${snake_x[0]} -ge $width ] || [ ${snake_y[0]} -lt 0 ] || [ ${snake_y[0]} -ge $height ]; then 
+        exit; 
+    fi
+    
     for ((i=1; i<snake_length; i++)); do 
-        if [ ${snake_x[i]} -eq ${snake_x[0]} ] && [ ${snake_y[i]} -eq ${snake_y[0]} ]; then exit; fi 
+        if [ ${snake_x[i]} -eq ${snake_x[0]} ] && [ ${snake_y[i]} -eq ${snake_y[0]} ];
+            then exit; 
+        fi 
     done 
 }
 
