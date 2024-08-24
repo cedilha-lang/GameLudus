@@ -3,7 +3,7 @@
 #Here I will be creating a snake game using bash to leran all the features I need to add to Ç and to the game library so players will be able to make that kind of game
 
 # Initial setup
-width=$(tput lines)   # game canvas width
+width=$(tput lines)   # game canvas width (correct would be adding cols instead of lines)
 let "height = 10"   # game canvas height
 let "area = $width * $height"
 let "snake_length = 1"
@@ -13,37 +13,43 @@ let "food_x = (RANDOM % (width - 2)) + 1"
 let "food_y = (RANDOM % (height - 2)) + 1"
 let "score = 0"
 
+# game colors
+BLUE="\e[34m"    # Blue snake
+GREEN='\e[32m'  # Green borders
+RED="\e[31m"  # Red fruits
+RESET="\e[0m"    # Resets the colors (make objects with different colors)
+
 function draw_game {
     local output_buffer=""
 
     # pre generates the superior and inferior borders
-    local top_bottom_border=$(printf "%0.s-" $(seq 1 $width))
+    local top_bottom_border=$(printf "%0.s$GREEN-" $(seq 1 $width))
     output_buffer+="$top_bottom_border\n"
 
     # pre generates the lateral borders
-    local side_border="|$(printf "%0.s " $(seq 2 $(($width - 1))))|"
+    local side_border="$GREEN|$(printf "%0.s " $(seq 2 $(($width - 1))))|"
 
     # Prints the game field with the lateral borders
     for ((j=0; j<height; j++)); do
-        output_buffer+="|"
+        output_buffer+="$GREEN|$RESET"
         for ((i=0; i<width; i++)); do
             local is_snake_part=false
             for ((k=0; k<snake_length; k++)); do
                 if [ $i -eq ${snake_x[k]} ] && [ $j -eq ${snake_y[k]} ]; then
-                    output_buffer+='∎'
+                    output_buffer+="$BLUE∎$RESET"
                     local is_snake_part=true
                     break
                 fi
             done
             if ! $is_snake_part; then
                 if [ $i -eq $food_x ] && [ $j -eq $food_y ]; then
-                    output_buffer+='*'
+                    output_buffer+="$RED*$RESET"
                 else
                     output_buffer+=' '
                 fi
             fi
         done
-        output_buffer+="|\n"
+        output_buffer+="$GREEN|\n$RESET"
     done
 
     # Prints the inferior border
