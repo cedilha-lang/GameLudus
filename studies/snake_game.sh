@@ -3,6 +3,7 @@
 #Here I will be creating a snake game using bash to leran all the features I need to add to Ç and to the game library so players will be able to make that kind of game
 
 # Initial setup
+first_draw=true
 width=$(tput lines)   # game canvas width (correct would be adding cols instead of lines)
 let "height = 10"   # game canvas height
 let "snake_length = 1"
@@ -13,10 +14,10 @@ let "food_y = (RANDOM % (height - 2)) + 1"
 let "score = 0"
 
 # game colors
-BLUE="\e[34m"    # Blue snake
-GREEN='\e[32m'  # Green borders
-RED="\e[31m"  # Red fruits
-RESET="\e[0m"    # Resets the colors (make objects with different colors)
+BLUE=$(tput setaf 4)    # Blue snake
+GREEN=$(tput setaf 2)  # Green borders
+RED=$(tput setaf 1)  # Red fruits
+RESET=$(tput sgr0)    # Resets the colors (make objects with different colors)
 
 function draw_game {
     local output_buffer=""
@@ -62,19 +63,77 @@ function draw_game {
     echo -e "$output_buffer"
 }
 
+: '
+Implementing more optimized drawing method by using "tput cup"
+
+function draw_game {
+    # Draw the borders (only once if necessary)
+    if [[ $first_draw == true ]]; then
+        # Top and bottom
+        tput cup 0 0
+        printf "${GREEN}%0.s-" $(seq 1 $width)
+        tput cup $((height + 1)) 0
+        printf "${GREEN}%0.s-" $(seq 1 $width)
+
+        # Sides
+        for ((j = 1; j <= height; j++)); do
+            tput cup $j 0
+            printf "${GREEN}|"
+            tput cup $j $((width - 1))
+            printf "${GREEN}|"
+        done
+        first_draw=false
+    fi
+
+    # Update the snakes position
+    for ((k = 0; k < snake_length; k++)); do
+        tput cup ${snake_y[k]} ${snake_x[k]}
+        printf "${BLUE}∎${RESET}"
+    done
+
+    # Update fruit position
+    tput cup $food_y $food_x
+    printf "${RED}*${RESET}"
+
+    # Cleans the previous position of the snakes tail
+    tput cup $tail_y $tail_x
+    printf " "
+
+    tput cup $((height + 2)) 0
+    printf "${GREEN}Score: $score"
+}
+'
+
 # Reads user input to move the snake
 function read_input {
     read -t 0.2 -n 3 input
 
     case $input in 
-        w) move='up' ;;
-        s) move='down' ;;
-        a) move='left' ;;
-        d) move='right' ;;
+        w)
+            #   Prevents the player from walking in the opposite direction and hitting its back piece
+            if [[ $move != "down" ]]; then
+                move="up"
+            fi
+            ;;
+        s)
+            if [[ $move != "up" ]]; then
+                move="down"
+            fi
+            ;;
+        a)
+            if [[ $move != "right" ]]; then
+                move="left"
+            fi
+            ;;
+        d)
+            if [[ $move != "left" ]]; then
+                move="right"
+            fi
+            ;;
     esac
 }
 
-# updates the game state
+# updates snake position and verifies if it has eaten the food
 function update_game {
     local prev_x=${snake_x[0]}
     local prev_y=${snake_y[0]}
