@@ -1,14 +1,14 @@
 const { ipcRenderer } = require('electron');
 
 window.onload = async () => {
-  // Pega a referência do canvas no HTML
+  // Grab the reference from the canvas in the HTML
   const canvas = document.getElementById('myCanvas');
   const ctx = canvas.getContext('2d');
 
-  // Obtém a imagem do canvas como base64 do processo principal
+  // Gets the image from the canvas as base64 from the main process
   const imageUrl = await ipcRenderer.invoke('get-canvas-image');
 
-  // Cria uma imagem a partir do base64 e desenha no canvas
+  // Create an image from base64 and draw on canvas
   const img = new Image();
   img.src = imageUrl;
   

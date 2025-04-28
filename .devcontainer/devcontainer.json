@@ -1,0 +1,19 @@
+{
+    "name": "Node.js Development",
+    "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:latest",
+    "features": {
+        "node": "latest"
+    },
+    "customizations": {
+		"vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ],
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    },
+    "postCreateCommand": "npm install && npm install -D typescript ts-node"
+}
