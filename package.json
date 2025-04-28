@@ -1,0 +1,21 @@
+{
+  "name": "gameludus_node-canvas",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ./src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "canvas": "^3.1.0",
+    "electron": "^35.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
