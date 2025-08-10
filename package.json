@@ -2,9 +2,9 @@
   "name": "gameludus_node-canvas",
   "version": "1.0.0",
   "type": "module",
-  "main": "./studies/src/main.js",
+  "main": "./src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron . --no-sandbox"
   },
   "keywords": [],
   "author": "",

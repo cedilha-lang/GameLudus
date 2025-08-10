@@ -11,11 +11,11 @@ GameLudus is a powerful library designed for developers looking to create engagi
 ## Upcoming Features ⏰
 - **User-Friendly API**: Easy-to-use functions for beginners and advanced developers alike.
 - **Extensible**: Designed with future expansion in mind, allowing for the addition of new functionalities.
-- **Support for .çb Files**: Load and manage game assets with ease.
 - **Window and Sprite Management**: Create customizable game windows and dynamic sprites.
 - **Advanced Rendering**: Efficiently render textures and animations for a polished look.
 - **Collision Detection**: Implement accurate collision detection for interactive gameplay.
 - **Keyboard Input Handling**: Read and respond to keyboard inputs for player controls and actions.
+- **Sound output**: Possibility of playing sound effects from .mp3 and .ogg files.
 
 ## Screenshots 🖼️
 <img src="./img/Basic_test_window.png" alt="light" width="600px">
