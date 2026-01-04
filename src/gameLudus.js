@@ -1,14 +1,14 @@
 export default {
   clearCanvas: () => {
-    const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+    const canvas = document.getElementById("gameCanvas");
     const ctx = canvas?.getContext("2d");
     if (ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   },
 
-  drawCircle: (x: number, y: number, r: number, color: string = "black") => {
-    const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+  drawCircle: (x, y, r, color = "black") => {
+    const canvas = document.getElementById("gameCanvas");
     const ctx = canvas?.getContext("2d");
     if (!ctx) {
       return;
@@ -19,8 +19,8 @@ export default {
     ctx.fill();
   },
 
-  drawRect: (x: number, y: number, w: number, h: number, color: string = "black") => {
-    const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+  drawRect: (x, y, w, h, color = "black") => {
+    const canvas = document.getElementById("gameCanvas");
     const ctx = canvas?.getContext("2d");
     if (!ctx) {
       return;
@@ -29,8 +29,8 @@ export default {
     ctx.fillRect(x, y, w, h);
   },
 
-  drawText: ( text: string, x: number, y: number, font: string = "20px Arial", color: string = "black" ) => {
-    const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement; 
+  drawText: ( text, x, y, font = "20px Arial", color = "black" ) => {
+    const canvas = document.getElementById("gameCanvas"); 
     const ctx = canvas?.getContext("2d"); 
     if (!ctx) {
       return;
@@ -41,17 +41,17 @@ export default {
   },
 
   getCanvasWidth: () => {
-    const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement; 
+    const canvas = document.getElementById("gameCanvas"); 
     return canvas?.width ?? 0; 
   }, 
   
   getCanvasHeight: () => { 
-    const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement; 
+    const canvas = document.getElementById("gameCanvas"); 
     return canvas?.height ?? 0;
   },
 
   isMousePressed: (() => {
-    let pressed = false; const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
+    let pressed = false; const canvas = document.getElementById("gameCanvas");
     if (canvas) { 
       canvas.addEventListener("mousedown", () => { 
         pressed = true; 

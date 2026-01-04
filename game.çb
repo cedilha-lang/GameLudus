@@ -1,1 +1,3 @@
-"Hello"
+import("gameLudus")
+
+return "hello"
